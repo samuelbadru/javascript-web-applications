@@ -6,6 +6,10 @@ class NotesModel {
   getNotes() {
     return this.notes;
   }
+
+  addNote(text) {
+    this.notes.push(text);
+  }
 }
 
 
