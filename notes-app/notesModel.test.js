@@ -15,4 +15,11 @@ describe('NotesModel', () => {
     model.addNote('Go to the gym');
     expect(model.getNotes()).toEqual(['Buy milk', 'Go to the gym']);
   });
+
+  it('returns nothing when after a reset is used', () => {
+    model.addNote('Buy milk');
+    model.addNote('Go to the gym');
+    model.reset();
+    expect(model.getNotes()).toEqual([]);
+  });
 })
