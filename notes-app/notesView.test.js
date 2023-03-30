@@ -103,7 +103,7 @@ describe('Page view', () => {
     const notes = document.querySelectorAll('.note')
     console.log(document.querySelector('.note').textContent)
     expect(notes.length).toBe(3);
-    // expect(model.getNotes()).toEqual(3);
+    expect(model.getNotes()).toEqual(["This note is coming from the server222","Walk the dog", "Go shopping"]);
   });
 
 });
