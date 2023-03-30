@@ -7,8 +7,10 @@ class NotesView {
     this.buttonEl = document.querySelector('#note-button');
 
     this.buttonEl.addEventListener('click', () => {
+
       const messageInput = document.querySelector('#message-input');
       const newNote = {"content": messageInput.value}
+
       this.client.createNote(newNote, (data) => {
         console.log("Data in button: ", data)
         this.model.addNote(data[-1]);
