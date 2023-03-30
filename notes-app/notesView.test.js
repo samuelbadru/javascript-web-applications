@@ -74,34 +74,26 @@ describe('Page view', () => {
   });
 
   it('creates notes in the api', () => {
+    // Arrange
     document.body.innerHTML = fs.readFileSync('./index.html');
     const model = new NotesModel();
     const client = {createNote: jest.fn(), loadNotes: jest.fn()};
     const view = new NotesView(model, client); 
 
+    // Action
     const buttonEl = document.querySelector('#note-button');
-    const inputEl = document.querySelector('#message-input')
-    inputEl.value;
-
-
-    // fetch.mockResponseOnce(JSON.stringify([
-    //   "This note is coming from the server",
-    //   "Remember to reflect on my progress this week!"
-    // ]));
-
+    const inputEl = document.querySelector('#message-input');
     
     client.createNote.mockImplementation((data, callback) => callback(["This note is coming from the server222", data['content']]));
-
     client.loadNotes.mockImplementation((callback) => callback(["This note is coming from the server222","Walk the dog", "Go shopping"]));
 
     inputEl.value = "Walk the dog";
     buttonEl.click();
     inputEl.value = "Go shopping";
     buttonEl.click();
-    
 
+    // Assert
     const notes = document.querySelectorAll('.note')
-    console.log(document.querySelector('.note').textContent)
     expect(notes.length).toBe(3);
     expect(model.getNotes()).toEqual(["This note is coming from the server222","Walk the dog", "Go shopping"]);
   });
