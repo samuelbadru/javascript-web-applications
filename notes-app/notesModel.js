@@ -16,7 +16,11 @@ class NotesModel {
   }
 
   setNotes(data) {
-    this.addNote(data);
+    this.reset();
+    data.forEach((note) => {
+      this.addNote(note);
+    })
+    console.log("This notes is (final): ", this.notes)
   }
 }
 

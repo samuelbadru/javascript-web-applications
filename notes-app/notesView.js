@@ -8,9 +8,13 @@ class NotesView {
 
     this.buttonEl.addEventListener('click', () => {
       const messageInput = document.querySelector('#message-input');
-      this.model.addNote(messageInput.value);
-      messageInput.value = '';
-      this.displayNotes();
+      const newNote = {"content": messageInput.value}
+      this.client.createNote(newNote, (data) => {
+        console.log("Data in button: ", data)
+        this.model.addNote(data[-1]);
+        this.displayNotesFromApi();
+        messageInput.value = '';
+      });
    });
   }
 
