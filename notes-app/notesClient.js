@@ -19,6 +19,15 @@ class NotesClient {
     .catch(() => callbackErr());
   }
 
+  resetNotes(callback, callbackErr) {
+    fetch('http://localhost:3000/notes', {
+      method: 'DELETE'
+    })
+    .then(response => response.json())
+    .then(()=> callback())
+    .catch(() => callbackErr());
+  }
+
   convertEmoji(note, callback, callbackErr) {
     fetch('https://makers-emojify.herokuapp.com/', {
       method: 'POST',

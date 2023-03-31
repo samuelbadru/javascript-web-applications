@@ -128,6 +128,7 @@ describe('Page view', () => {
     const buttonEl = document.querySelector('#note-button');
     const inputEl = document.querySelector('#message-input');
 
+    // (parameters) => result
     client.createNote.mockImplementation((data, callback, callbackErr) => callbackErr(new Error("Server is not running, cannot create note")));
     client.loadNotes.mockImplementation((callback, callbackErr) => callbackErr(new Error("Server is not running, cannot load server")));
     client.convertEmoji.mockImplementation((data, callback, callbackErr) => callback(new Error("Server is not running, cannot convert emojis")));
