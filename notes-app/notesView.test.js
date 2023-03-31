@@ -69,7 +69,7 @@ describe('Page view', () => {
     view.displayNotesFromApi();
 
     const notes = document.querySelectorAll('.note')
-    expect(model.getNotes()).toEqual(["This note is coming from the server"]);
+    expect(notes[0].textContent).toBe("This note is coming from the server")
     expect(notes.length).toBe(1);
   });
 
@@ -95,7 +95,25 @@ describe('Page view', () => {
     // Assert
     const notes = document.querySelectorAll('.note')
     expect(notes.length).toBe(3);
-    expect(model.getNotes()).toEqual(["This note is coming from the server222","Walk the dog", "Go shopping"]);
+    expect(notes[0].textContent).toBe("This note is coming from the server222");
+    expect(notes[1].textContent).toBe("Walk the dog");
+    expect(notes[2].textContent).toBe("Go shopping");
+  });
+
+  it('catches errors in loading notes', () => {
+    // Arrange
+    document.body.innerHTML = fs.readFileSync('./index.html');
+    const model = new NotesModel();
+    const client = {loadNotes: jest.fn()};
+    const view = new NotesView(model, client); 
+
+    // Action
+    client.loadNotes.mockImplementation((callback, callbackErr) => callbackErr(new Error("Server is not running")));
+    view.displayNotesFromApi();
+    // Assert
+    const notes = document.querySelectorAll('.note')
+    expect(notes.length).toBe(1);
+    expect(notes[0].textContent).toBe("Oops, something went wrong!")
   });
 
 });

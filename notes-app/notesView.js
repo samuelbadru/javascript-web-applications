@@ -11,9 +11,7 @@ class NotesView {
       const messageInput = document.querySelector('#message-input');
       const newNote = {"content": messageInput.value}
 
-      this.client.createNote(newNote, (data) => {
-        console.log("Data in button: ", data)
-        this.model.addNote(data[-1]);
+      this.client.createNote(newNote, () => {
         this.displayNotesFromApi();
         messageInput.value = '';
       });
@@ -39,7 +37,12 @@ class NotesView {
     this.client.loadNotes((data) => {
       this.model.setNotes(data);
       this.displayNotes();
-    });
+    }, () => this.displayError());
+  }
+
+  displayError() {
+    this.model.setNotes(["Oops, something went wrong!"]);
+    this.displayNotes();
   }
 }
 

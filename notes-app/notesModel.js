@@ -20,7 +20,6 @@ class NotesModel {
     data.forEach((note) => {
       this.addNote(note);
     })
-    console.log("This notes is (final): ", this.notes)
   }
 }
 
