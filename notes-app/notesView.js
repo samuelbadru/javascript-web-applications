@@ -14,7 +14,7 @@ class NotesView {
       this.client.createNote(newNote, () => {
         this.displayNotesFromApi();
         messageInput.value = '';
-      });
+      }, () => this.displayError());
    });
   }
 
@@ -41,7 +41,7 @@ class NotesView {
   }
 
   displayError() {
-    this.model.setNotes(["Oops, something went wrong!"]);
+    this.model.addNote("Oops, something went wrong!");
     this.displayNotes();
   }
 }

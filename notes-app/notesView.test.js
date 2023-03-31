@@ -116,4 +116,29 @@ describe('Page view', () => {
     expect(notes[0].textContent).toBe("Oops, something went wrong!")
   });
 
+  it('catches errors in creating notes', () => {
+    // Arrange
+    document.body.innerHTML = fs.readFileSync('./index.html');
+    const model = new NotesModel();
+    const client = {createNote: jest.fn(), loadNotes: jest.fn()};
+    const view = new NotesView(model, client); 
+
+    // Action
+    const buttonEl = document.querySelector('#note-button');
+    const inputEl = document.querySelector('#message-input');
+
+    client.createNote.mockImplementation((data, callback, callbackErr) => callbackErr(new Error("Server is not running, cannot create note")));
+    client.loadNotes.mockImplementation((callback, callbackErr) => callbackErr(new Error("Server is not running, cannot load server")));
+    
+    inputEl.value = "Walk the dog";
+    buttonEl.click();
+    inputEl.value = "Go shopping";
+    buttonEl.click();
+
+    // Assert
+    const notes = document.querySelectorAll('.note')
+    expect(notes.length).toBe(2);
+    expect(notes[0].textContent).toBe("Oops, something went wrong!")
+  });
+
 });
