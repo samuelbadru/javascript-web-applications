@@ -77,7 +77,7 @@ describe('Page view', () => {
     // Arrange
     document.body.innerHTML = fs.readFileSync('./index.html');
     const model = new NotesModel();
-    const client = {createNote: jest.fn(), loadNotes: jest.fn()};
+    const client = {createNote: jest.fn(), loadNotes: jest.fn(), convertEmoji: jest.fn()};
     const view = new NotesView(model, client); 
 
     // Action
@@ -86,6 +86,7 @@ describe('Page view', () => {
     
     client.createNote.mockImplementation((data, callback) => callback(["This note is coming from the server222", data['content']]));
     client.loadNotes.mockImplementation((callback) => callback(["This note is coming from the server222","Walk the dog", "Go shopping"]));
+    client.convertEmoji.mockImplementation((data, callback) => callback({"emojified_text": `:${data}:`}));
 
     inputEl.value = "Walk the dog";
     buttonEl.click();
@@ -120,7 +121,7 @@ describe('Page view', () => {
     // Arrange
     document.body.innerHTML = fs.readFileSync('./index.html');
     const model = new NotesModel();
-    const client = {createNote: jest.fn(), loadNotes: jest.fn()};
+    const client = {createNote: jest.fn(), loadNotes: jest.fn(), convertEmoji: jest.fn()};
     const view = new NotesView(model, client); 
 
     // Action
@@ -129,7 +130,9 @@ describe('Page view', () => {
 
     client.createNote.mockImplementation((data, callback, callbackErr) => callbackErr(new Error("Server is not running, cannot create note")));
     client.loadNotes.mockImplementation((callback, callbackErr) => callbackErr(new Error("Server is not running, cannot load server")));
-    
+    client.convertEmoji.mockImplementation((data, callback, callbackErr) => callback(new Error("Server is not running, cannot convert emojis")));
+
+
     inputEl.value = "Walk the dog";
     buttonEl.click();
     inputEl.value = "Go shopping";

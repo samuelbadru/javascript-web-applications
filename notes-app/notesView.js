@@ -9,11 +9,13 @@ class NotesView {
     this.buttonEl.addEventListener('click', () => {
 
       const messageInput = document.querySelector('#message-input');
-      const newNote = {"content": messageInput.value}
-
-      this.client.createNote(newNote, () => {
-        this.displayNotesFromApi();
-        messageInput.value = '';
+      
+      this.client.convertEmoji(messageInput.value, (data) => {
+        const newNote = {"content": data["emojified_text"]};
+        this.client.createNote(newNote, () => {
+          this.displayNotesFromApi();
+          messageInput.value = '';
+        }, () => this.displayError());
       }, () => this.displayError());
    });
   }

@@ -14,10 +14,22 @@ class NotesClient {
       },
       body: JSON.stringify(newNote)
     })
-    .then(response => {
-      return response.json()})
+    .then(response => response.json())
     .then(data => callback(data))
     .catch(() => callbackErr());
+  }
+
+  convertEmoji(note, callback, callbackErr) {
+    fetch('https://makers-emojify.herokuapp.com/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({"text": note})
+    })
+    .then((response) => response.json())
+    .then((data) => callback(data))
+    .catch(() => callbackErr())
   }
 }
 
